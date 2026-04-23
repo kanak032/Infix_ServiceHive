@@ -13,7 +13,7 @@ The main application is located in the `autostream-agent` directory. It is a Lan
    - Create a Python virtual environment.
    - Install all required dependencies.
    - Set up the `.env` file for you.
-4. If it's your first time running, the script will pause and ask you to add your `GOOGLE_API_KEY` to the newly created `autostream-agent/.env` file. Once added, run `run.bat` again to start the agent!
+4. If it's your first time running, the script will pause and ask you to add your `GOOGLE_API_KEY` (or a comma-separated list of keys for `GOOGLE_API_KEYS` if you want key rotation) to the newly created `autostream-agent/.env` file. Once added, run `run.bat` again to start the agent!
 
 ### Option 2: Manual Setup (Any OS)
 1. Navigate to the agent directory:
@@ -36,7 +36,7 @@ The main application is located in the `autostream-agent` directory. It is a Lan
    ```bash
    cp .env.example .env
    ```
-   *Edit the `.env` file and add your `GOOGLE_API_KEY` (Get a free key from [Google AI Studio](https://aistudio.google.com/app/apikey)).*
+   *Edit the `.env` file and add your `GOOGLE_API_KEY` (or `GOOGLE_API_KEYS` for multiple keys).*
 
 5. Run the application:
    ```bash

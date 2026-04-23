@@ -115,7 +115,11 @@ cp .env.example .env
 Edit `.env` and add your Google API key:
 
 ```
+# For a single key:
 GOOGLE_API_KEY=your_actual_api_key_here
+
+# Optional: For API Key Rotation (comma-separated list):
+# GOOGLE_API_KEYS=key1,key2,key3
 ```
 
 > 🔑 Get your free API key at: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
@@ -178,7 +182,8 @@ The agent uses `knowledge_base.json` as its source of truth for:
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `GOOGLE_API_KEY` | Google AI Studio API key for Gemini | ✅ Yes |
+| `GOOGLE_API_KEY` | Google AI Studio API key for Gemini (Single key) | ✅ Yes (If keys not used) |
+| `GOOGLE_API_KEYS` | Comma-separated list of keys for API key rotation | Optional |
 
 ---
 
