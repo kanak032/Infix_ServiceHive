@@ -25,7 +25,7 @@ def retrieve(query: str) -> str:
     results = []
 
     # Match pricing-related queries
-    if any(w in query for w in ["price", "pricing", "plan", "cost", "basic", "pro", "month", "subscription", "pay", "fee", "tier"]):
+    if any(w in query for w in ["price", "pricing", "plan", "cost", "basic", "pro", "enterprise", "month", "subscription", "pay", "fee", "tier"]):
         results.append("PRICING:\n" + json.dumps(kb["pricing"], indent=2))
 
     # Match policy-related queries
@@ -33,8 +33,13 @@ def retrieve(query: str) -> str:
         results.append("POLICIES:\n" + json.dumps(kb["policies"], indent=2))
 
     # Match feature-related queries
-    if any(w in query for w in ["feature", "edit", "video", "caption", "resolution", "4k", "720p", "export", "what can", "what does"]):
-        results.append("PRICING (includes features):\n" + json.dumps(kb["pricing"], indent=2))
+    if any(w in query for w in ["feature", "edit", "video", "caption", "resolution", "4k", "720p", "export", "b-roll", "zoom", "language", "what can", "what does"]):
+        results.append("GENERAL PLATFORM FEATURES:\n" + json.dumps(kb.get("general_features", []), indent=2))
+        results.append("PRICING TIERS & LIMITS:\n" + json.dumps(kb["pricing"], indent=2))
+
+    # Match FAQ-related queries (formats, limits)
+    if any(w in query for w in ["format", "mp4", "mov", "size", "limit", "upload", "gb", "faq"]):
+        results.append("FAQS:\n" + json.dumps(kb.get("faqs", {}), indent=2))
 
     # Deduplicate results
     seen = set()

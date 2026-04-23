@@ -11,10 +11,26 @@
       "videos": "Unlimited",
       "resolution": "4K",
       "features": ["Unlimited videos", "4K resolution", "AI captions", "24/7 support"]
+    },
+    "enterprise": {
+      "price": "Custom Pricing",
+      "videos": "Unlimited",
+      "resolution": "8K",
+      "features": ["Dedicated Account Manager", "API Access", "Custom AI Voiceovers", "SSO"]
     }
   },
+  "general_features": [
+    "Auto-Silence Removal: Automatically cuts out awkward pauses and 'umms'.",
+    "AI B-Roll Generation: Suggests and inserts stock footage based on what you are saying.",
+    "Auto-Zoom: Keeps the speaker centered in the frame dynamically.",
+    "Multi-Language Captions: Supports generating subtitles in over 50 languages."
+  ],
   "policies": {
     "refund": "No refunds after 7 days",
-    "support": "24/7 support available only on Pro plan"
+    "support": "24/7 support available only on Pro and Enterprise plans"
+  },
+  "faqs": {
+    "export_formats": "We currently support exporting in MP4 and MOV formats.",
+    "max_file_size": "Basic plan users can upload up to 2GB per project. Pro and Enterprise users can upload up to 10GB per project."
   }
 }

@@ -28,25 +28,50 @@ from tools import mock_lead_capture
 # ---------------------------------------------------------------------------
 load_dotenv()
 
-_llm_instance = None
+import itertools
+
+_llm_cycle = None
 
 
 def get_llm():
-    """Lazily initialize the LLM so the module can be imported without an API key."""
-    global _llm_instance
-    if _llm_instance is None:
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key:
+    """Lazily initialize the LLMs and rotate through them (API Key Rotation) to bypass free-tier rate limits."""
+    global _llm_cycle
+    
+    if _llm_cycle is None:
+        # Check for multiple keys (comma-separated) or a single key
+        keys_env = os.getenv("GOOGLE_API_KEYS")
+        single_key = os.getenv("GOOGLE_API_KEY")
+        
+        keys = []
+        if keys_env:
+            keys = [k.strip() for k in keys_env.split(",") if k.strip()]
+        elif single_key:
+            keys = [k.strip() for k in single_key.split(",") if k.strip()]
+            
+        if not keys:
             raise ValueError(
-                "GOOGLE_API_KEY not found. Please set it in your .env file.\n"
-                "Get your key at: https://aistudio.google.com/app/apikey"
+                "No API keys found. Please set GOOGLE_API_KEYS (comma-separated list of keys) "
+                "or GOOGLE_API_KEY in your .env file.\n"
+                "Get your keys at: https://aistudio.google.com/app/apikey"
             )
-        _llm_instance = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash",
-            google_api_key=api_key,
-            temperature=0.3,
-        )
-    return _llm_instance
+            
+        # Create an LLM instance for each key
+        llms = [
+            ChatGoogleGenerativeAI(
+                model="gemini-2.5-flash",
+                google_api_key=key,
+                temperature=0.3,
+                max_retries=1,
+                timeout=15,
+            )
+            for key in keys
+        ]
+        
+        # Create an infinite cycle iterator
+        _llm_cycle = itertools.cycle(llms)
+        
+    # Return the next LLM instance in the cycle
+    return next(_llm_cycle)
 
 # ---------------------------------------------------------------------------
 # System & Classification Prompts
